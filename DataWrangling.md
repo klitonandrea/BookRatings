@@ -58,4 +58,13 @@ It seems that there are a lot of 0 rated books. These books are not rated yet in
 
 `BookInfoAverage = BkInfNNullRtng[BkInfNNullRtng.average_rating != 0]`
 
-Now there are 12265 records that have not null non-zero average ratings.
+Removed as well columns that did not hold any useful information.
+
+Kept only the works that when grouped by language have a number more than 3:
+```
+LangCount =  BookInfoAverage['languages'].value_counts()
+LangCGT3 = LangCount[LangCount > 3]
+BookInfoAverage = BookInfoAverage[BookInfoAverage.languages.isin(LangCGT3.index)]
+```
+
+Now there are 12190 records in the DataFrame.
