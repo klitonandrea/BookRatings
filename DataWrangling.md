@@ -58,3 +58,4 @@ It seems that there are a lot of 0 rated books. These books are not rated yet in
 
 `BookInfoAverage = BkInfNNullRtng[BkInfNNullRtng.average_rating != 0]`
 
+Now there are 12265 records that have not null non-zero average ratings.
