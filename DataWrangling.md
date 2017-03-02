@@ -1,4 +1,6 @@
-Data Wrangling
+##Data Wrangling
+
+###Retrieving the book dataset
 
 Retrieved data from dumps in Open Library Data Dumps (https://openlibrary.org/developers/dumps)
 
@@ -17,13 +19,15 @@ It is necessary to transform the last column to the necessary structured table f
 First we read the dump using the command:
 	olde = pd.read_csv(path_to_dump, sep='\t', header=None, names=['Book'], usecols=[4])
 
-This will result in a table with one column containing the json. The dump is huge and takes more than 16 GB of RAM. The dump was split in 5 files containing around 29602272 records each.
+This will result in a table with one column containing the json. The dump is huge and takes more than 16 GB of RAM. The dump was split in 5 files containing around 29,602,272 records each.
 
 The transformation is applied in chunks of size 1000. We use Dewey classification to filter out all non-literature works. Will retain only those records starting with '8' or a letter. For each record we apply json_normalize function from 'pandas.io.json' module. The tranformation is not time efficient and going through all the records was taking a huge amount of time. Had to restrict the number of records for this project. There were chosen first 4000 literature works from each file. 
 
 The resulting table contains 82 columns. Columns that contain identification information are discarded:
 
 `BookInfo.drop([item for l in filter(None, BookInfo.columns.str.findall('identi.*')) for item in l], axis=1, inplace=True)`
+
+###Retrieving ratings dataset
 
 Only ISBN will serve as a book identifier, although the same work from the same author could have several ISBNs. ISBN is not only the literature work identifier but also it is linked to the publisher. The ISBN is necessary to retrieve rating information from Goodreads (https://www.goodreads.com).
 
